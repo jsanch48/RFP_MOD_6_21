@@ -1,0 +1,7 @@
+{% if page.handle == 'about-us-1' %}
+	{% section 'about-template' %}   
+{% elsif page.handle == 'faqs-1' %}
+	{% section 'faq-template' %}   
+{% else %}
+	{% section 'page-template' %}
+{% endif %}

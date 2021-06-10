@@ -1,0 +1,89 @@
+{% if product.tags contains 'bl_jewelry' %}
+    {% section 'product-template-jewelry' %}
+{% elsif product.tags contains 'bl_scarves_suzhou' %}
+    {% section 'product-template-scarves-suzhou' %}
+{% elsif product.tags contains 'bl_scarves_hangzhou' %}
+    {% section 'product-template-scarves-hangzhou' %}
+{% elsif product.tags contains 'bl_scarves_silk' %}
+    {% section 'product-template-scarves-silk' %}
+{% elsif product.tags contains 'bl_candles' %}
+    {% section 'product-template-candles' %}
+{% elsif product.tags contains 'bl_trays' %}
+    {% section 'product-template-trays' %}
+{% elsif product.tags contains 'bl_coasters' %}
+    {% section 'product-template-coasters' %}
+{% elsif product.tags contains 'bl_placemats' %}
+    {% section 'product-template-placemats' %}
+{% elsif product.tags contains 'bl_napkins' %}
+    {% section 'product-template-napkins' %}
+{% elsif product.tags contains 'bl_clothing' %}
+    {% section 'product-template-clothing' %}
+{% elsif product.tags contains 'bl_blubags' %}
+    {% section 'product-template-blubags' %}
+{% elsif product.tags contains 'bl_blucloth' %}
+    {% section 'product-template-blucloth' %}
+{% elsif product.tags contains 'bl_canvas' %}
+    {% section 'product-template-canvas' %}
+{% elsif product.tags contains 'bl_general' %}
+    {% section 'product-template-general' %}
+{% elsif product.tags contains 'bl_succulents' %}
+    {% section 'product-template-succulents' %}
+{% elsif product.tags contains 'bl_masks' %}
+    {% section 'product-template-masks' %}
+{% elsif product.tags contains 'bl_ecocloth' %}
+    {% section 'product-template-ecocloth' %}
+{% else %}
+{%- section 'product-template' -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org/",
+	"@type": "Product",
+	"name": {{ product.title | json }},
+	"url": {{ shop.url | append: product.url | json }},
+	{%- if product.featured_media -%}
+		{%- assign media_size = product.featured_media.preview_image.width | append: 'x' -%}
+		"image": [
+			{{ product.featured_media | img_url: media_size | prepend: "https:" | json }}
+		],
+	{%- endif -%}
+	"description": {{ product.description | strip_html | json }},
+	{%- if current_variant.sku != blank -%}
+		"sku": {{ current_variant.sku | json }},
+	{%- endif -%}
+	"brand": {
+		"@type": "Thing",
+		"name": {{ product.vendor | json }}
+	},
+	{%- if current_variant.barcode -%}
+		"gtin8": "{{ product.variants.first.barcode }}",
+	{%- endif -%}
+	{%- if current_variant.barcode.size == 12 -%}
+		"gtin12": "{{ product.variants.first.barcode }}",
+	{%- endif -%}
+	{%- if current_variant.barcode.size == 13 -%}
+		"gtin13": "{{ product.variants.first.barcode }}",
+	{%- endif -%}
+	{%- if current_variant.barcode.size == 14 -%}
+		"gtin14": "{{ product.variants.first.barcode }}",
+	{%- endif -%}
+	"offers": [
+		{%- for variant in product.variants -%}
+			{
+				"@type" : "Offer",
+				{%- if variant.sku != blank -%}
+					"sku": {{ variant.sku | json }},
+				{%- endif -%}
+				"availability" : "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+				"price" : {{ variant.price | divided_by: 100.00 | json }},
+				"priceCurrency" : {{ cart.currency.iso_code | json }},
+				"url" : {{ shop.url | append: variant.url | json }}
+			}{% unless forloop.last %},{% endunless %}
+		{%- endfor -%}
+	]
+}
+</script>
+{% endif %}
+{%- section 'faq-section__product' -%}
+{%- section 'related-products' -%}

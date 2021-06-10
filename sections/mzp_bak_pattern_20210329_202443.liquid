@@ -1,0 +1,104 @@
+<div class="product-layout-{{ layout }}--images product-layout-images product-layout-images--{{ image_size }} xxl_s12 xl_s12 lg_s12 med_s12 s1">
+					{%- if product_layout == 'slideshow' -%}
+						<div class="productImgSlider{% if is_single_media %} productImgSlider--single{% endif %}" data-product-single-media-group>
+							<div class="js-productImgSlider js-productImgContainer" id="js-productImgSlider--{{ section.id }}" data-lightbox="{{ lightbox }}" data-dots="{{ dots }}" data-arrows="{{ arrows }}" data-product-single-media-slider>
+								{%- comment -%} Show Featured media first {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id == featured_media_id -%}
+										{%- render 'media', media: media, featured_media: featured_media, is_single_media: is_single_media -%}
+									{%- endif -%}
+								{%- endfor -%}
+
+								{%- comment -%} Loop product media skipping the featured {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id != featured_media_id -%}
+										{%- render 'media', media: media, featured_media: featured_media, is_single_media: is_single_media -%}
+									{%- endif -%}
+								{%- endfor -%}
+							</div>
+
+							{%- if first_3d_model -%}
+								<button
+									aria-label="{{ 'products.product_page.view_in_space_label' | t }}"
+									class="btn btn--ar product-single__view-in-space"
+									data-shopify-xr
+									data-shopify-model3d-id="{{ first_3d_model.id }}"
+									data-shopify-title="{{ product.title | escape }}"
+									data-shopify-xr-hidden>
+									{%- render 'icon-media-model' -%}
+									<span class='product-single__view-in-space-text'>{{ 'products.product_page.view_in_space' | t }}</span>
+								</button>
+							{%- endif -%}
+						</div>
+
+						{%- unless is_single_media -%}
+							<div class="productImgSlider-nav js-productImgSlider-nav" data-product-single-media-thumbs>
+								{%- comment -%} Show Featured media thumbnail first {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id == featured_media_id -%}
+										{%- render 'media-thumb', media: media, index: forloop.index -%}
+									{%- endif -%}
+								{%- endfor -%}
+
+								{%- comment -%} Loop product media thumbnails skipping the featured {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id != featured_media_id -%}
+										{%- render 'media-thumb', media: media, index: forloop.index -%}
+									{%- endif -%}
+								{%- endfor -%}
+							</div>
+						{%- endunless -%}
+					{%- else -%}
+						<div class="productImgScroller{% if is_single_media %} productImgScroller--single{% endif %}" data-product-single-media-group>
+							<div class="js-productImgScroller js-productImgContainer" data-dots="{{ dots }}" data-arrows="{{ arrows }}" data-lightbox="{{ lightbox }}" data-product-single-media-slider>
+								{%- comment -%} Show Featured media first {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id == featured_media_id -%}
+										{%- render 'media', media: media, featured_media: featured_media, is_single_media: is_single_media -%}
+									{%- endif -%}
+								{%- endfor -%}
+
+								{%- comment -%} Loop product media skipping the featured {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id != featured_media_id -%}
+										{%- render 'media', media: media, featured_media: featured_media, is_single_media: is_single_media -%}
+									{%- endif -%}
+								{%- endfor -%}
+							</div>
+
+							{%- if first_3d_model -%}
+								<button
+									aria-label="{{ 'products.product_page.view_in_space_label' | t }}"
+									class="btn btn--ar product-single__view-in-space"
+									data-shopify-xr
+									data-shopify-model3d-id="{{ first_3d_model.id }}"
+									data-shopify-title="{{ product.title | escape }}"
+									data-shopify-xr-hidden>
+									{%- render 'icon-media-model' -%}
+									<span class='product-single__view-in-space-text'>{{ 'products.product_page.view_in_space' | t }}</span>
+								</button>
+							{%- endif -%}
+						</div>
+
+						{%- unless is_single_media -%}
+							<div class="productImgScroller-nav js-productImgScroller-nav" data-product-single-media-thumbs>
+								{%- comment -%} Show Featured media thumbnail first {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id == featured_media_id -%}
+										{%- render 'media-thumb', media: media, index: forloop.index -%}
+									{%- endif -%}
+								{%- endfor -%}
+
+								{%- comment -%} Loop product media thumbnails skipping the featured {%- endcomment -%}
+								{%- for media in product.media -%}
+									{%- if media.id != featured_media_id -%}
+										{%- render 'media-thumb', media: media, index: forloop.index -%}
+									{%- endif -%}
+								{%- endfor -%}
+							</div>
+						{%- endunless -%}
+					{%- endif -%}
+				</div>
+				<!-- end product-images -->
+
+				<div class="product-info
